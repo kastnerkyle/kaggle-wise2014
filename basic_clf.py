@@ -16,7 +16,7 @@ X_test, y_test = load_svmlight_file(
 print("Binarizing.")
 lb = MultiLabelBinarizer()
 y_train = lb.fit_transform(y_train)
-clf = OneVsRestClassifier(BernoulliNB(), n_jobs=2)
+clf = OneVsRestClassifier(BernoulliNB(alpha=.01), n_jobs=2)
 
 print("Performing cross validation.")
 cv = KFold(y_train.shape[0], n_folds=3, shuffle=True, random_state=42)
