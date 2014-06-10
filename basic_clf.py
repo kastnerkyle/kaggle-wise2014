@@ -3,7 +3,7 @@ import numpy as np
 from sklearn.datasets import load_svmlight_file
 from sklearn.preprocessing import MultiLabelBinarizer
 from sklearn.multiclass import OneVsRestClassifier
-from sklearn.naive_bayes import BernoulliNB
+from sklearn.svm import LinearSVC
 from sklearn.cross_validation import cross_val_score, KFold
 
 print("Loading data from svmlight files.")
@@ -16,7 +16,9 @@ X_test, y_test = load_svmlight_file(
 print("Binarizing.")
 lb = MultiLabelBinarizer()
 y_train = lb.fit_transform(y_train)
-clf = OneVsRestClassifier(BernoulliNB(alpha=.01), n_jobs=2)
+#http://scikit-learn.org/stable/auto_examples/document_classification_20newsgroups.html
+clf = OneVsRestClassifier(LinearSVC(loss='l2', penalty='l2', tol=1e-3,
+                                    dual=False), n_jobs=2)
 
 print("Performing cross validation.")
 cv = KFold(y_train.shape[0], n_folds=3, shuffle=True, random_state=42)
